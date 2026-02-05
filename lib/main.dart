@@ -114,49 +114,64 @@ class _HeroListPageState extends State<HeroListPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Mobile Legends Heroes"),
-        leading: const Icon(Icons.sports_esports),
-        backgroundColor: Colors.blueGrey,
+        centerTitle: true,
+        backgroundColor: Colors.blue,
       ),
       body: Column(
         children: [
-          /// TOP SECTION - SELECTED HERO DETAILS
-          Container(
-            width: double.infinity,
-            padding: const EdgeInsets.all(16),
-            color: Colors.grey.shade200,
-            child: isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : selectedHero == null
-                    ? const Text("Select a hero to view details")
-                    : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Center(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.asset(
-                                selectedHero!.image,
-                                height: 160,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          Text(
-                            selectedHero!.name,
-                            style: const TextStyle(
-                              fontSize: 22,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text("Role: ${selectedHero!.role}"),
-                          Text("Price: ${selectedHero!.price}"),
-                          const SizedBox(height: 8),
-                          Text(selectedHero!.description),
-                        ],
+      /// TOP SECTION - SELECTED HERO DETAILS
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        color: Colors.grey.shade200,
+        child: isLoading
+            ? const Center(child: CircularProgressIndicator())
+            : selectedHero == null
+                // Kept centered from previous step
+                ? const Center(child: Text("Select a hero to view details"))
+                : Column(
+                    // Kept centered from previous step
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        // --- CHANGE START ---
+                        // Replaced ClipRRect with CircleAvatar
+                        child: CircleAvatar(
+                          // Radius should be half the desired diameter.
+                          // Previous height was 160, so radius is 80.
+                          radius: 80,
+                          backgroundImage: AssetImage(selectedHero!.image),
+                          // Optional: add a background color in case image has transparent parts or fails to load
+                          backgroundColor: Colors.grey.shade400,
+                        ),
+                        // --- CHANGE END ---
                       ),
-          ),
+                      const SizedBox(height: 12),
+                      Text(
+                        selectedHero!.name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        "Role: ${selectedHero!.role}",
+                        textAlign: TextAlign.center,
+                      ),
+                      Text(
+                        "Price: ${selectedHero!.price}",
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        selectedHero!.description,
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+      ),
 
           /// BOTTOM SECTION - HERO LIST
           Expanded(
